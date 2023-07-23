@@ -24,7 +24,8 @@ const motionVariants: Variants = {
     },
   },
   shake: {
-    x: [0, Math.random() * 50 - 25],
+    x: [-15, 15],
+    y: [-15],
     transition: {
       duration: 0.1,
 
