@@ -15,7 +15,7 @@ function App() {
     e.preventDefault();
     setIsHolding(!isHolding);
   };
-  const handleClickMobile = () => {
+  const handleClickMobile = (e: React.TouchEvent<HTMLDivElement>) => {
     setIsHolding(!isHolding);
   };
   return (
@@ -29,9 +29,9 @@ function App() {
       >
         <Header />
         <MainLayout>
-          <p className="text-white text-3xl sm:mt-32 mt-8">Hi, I'm Pposong</p>
+          <p className="text-white text-3xl sm:mt-32 mt-12">Hi, I'm Pposong</p>
           <motion.div
-            className="w-full flex h-60 place-content-center mt-20"
+            className="w-full flex h-60 place-content-center sm:mt-20 mt-8"
             variants={jumpVariants}
             animate="jump"
           >

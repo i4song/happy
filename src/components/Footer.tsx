@@ -14,7 +14,7 @@ const Line = () => (
 const Footer = ({ isHolding }: { isHolding: boolean }) => {
   return (
     <div className="flex flex-col items-center w-[480px] h-20">
-      <p className="text-white text-sm mb-3">
+      <p className="text-white text-sm mb-3 select-none">
         {isHolding ? "Keep Holding" : "Click & Hold"}
       </p>
       {isHolding && <Line />}
