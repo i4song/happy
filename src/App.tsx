@@ -5,12 +5,11 @@ import "./App.css";
 import Heart from "./components/Heart";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import jumpVariants from "./components/jumpVariants";
+import motionVariants from "./components/motionVariants";
 import { Stage } from "@pixi/react";
 
 function App() {
   const [isHolding, setIsHolding] = useState(false);
-
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsHolding(!isHolding);
@@ -29,16 +28,28 @@ function App() {
       >
         <Header />
         <MainLayout>
-          <p className="text-white text-3xl sm:mt-32 mt-12">Hi, I'm Pposong</p>
-          <motion.div
-            className="w-full flex h-60 place-content-center sm:mt-20 mt-8"
-            variants={jumpVariants}
-            animate="jump"
-          >
-            <Stage width={300} height={300}>
-              <Heart isHolding={isHolding} />
-            </Stage>
-          </motion.div>
+          <p className="text-white text-3xl sm:mt-32 mt-8">Hi, I'm Pposong</p>
+          {isHolding ? (
+            <motion.div
+              className="w-full flex h-60 place-content-center sm:mt-20 mt-8"
+              variants={motionVariants}
+              animate="shake"
+            >
+              <Stage width={300} height={300}>
+                <Heart isHolding={isHolding} />
+              </Stage>
+            </motion.div>
+          ) : (
+            <motion.div
+              className="w-full flex h-60 place-content-center sm:mt-20 mt-8"
+              variants={motionVariants}
+              animate="jump"
+            >
+              <Stage width={300} height={300}>
+                <Heart isHolding={isHolding} />
+              </Stage>
+            </motion.div>
+          )}
         </MainLayout>
         <Footer isHolding={isHolding} />
       </div>

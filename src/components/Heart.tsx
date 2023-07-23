@@ -12,11 +12,11 @@ const Heart = ({ isHolding }: { isHolding: boolean }) => {
   useTick(() => {
     if (isHolding) {
       setBloom((bloom) => {
-        if (bloom < 2) return bloom + 0.01;
+        if (bloom < 2) return bloom + 0.03;
         else return bloom;
       });
       setBlur((blur) => {
-        if (blur < 10) return blur + 0.1;
+        if (blur < 16) return blur + 0.1;
         else return blur;
       });
     } else {
