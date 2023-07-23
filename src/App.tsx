@@ -15,7 +15,7 @@ function App() {
     e.preventDefault();
     setIsHolding(!isHolding);
   };
-  const handleClickMobile = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleClickMobile = () => {
     setIsHolding(!isHolding);
   };
   return (
