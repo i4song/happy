@@ -43,7 +43,7 @@ const Header = () => {
   const [showMail, setShowMail] = useState(false);
 
   return (
-    <div className="fixed top-0 flex flex-row pl-12 pt-6 w-full justify-start">
+    <div className="fixed top-0 flex flex-row sm:pl-12 pl-6 pt-6 w-full justify-start">
       <ImageDiv
         url={code}
         onMouseEnter={() => {
