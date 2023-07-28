@@ -3,46 +3,28 @@ import MainLayout from "./components/MainLayout";
 import Footer from "./components/Footer";
 import "./App.css";
 import Heart from "./components/Heart";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import motionVariants from "./components/motionVariants";
 import { Stage } from "@pixi/react";
+import useInnerWidth from "./components/useInnerWidth";
+import useHold from "./components/useHold";
+import { useRef, useState } from "react";
 
 function App() {
-  const [isHolding, setIsHolding] = useState(false);
-  const [width, setWidth] = useState(600);
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth < 640) {
-        setWidth(300);
-      } else {
-        setWidth(600);
-      }
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        if (window.innerWidth < 640) {
-          setWidth(300);
-        } else {
-          setWidth(600);
-        }
-      });
-    };
-  }, []);
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsHolding(true);
-  };
-  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsHolding(false);
-  };
-  const handleTouchStart = () => {
-    setIsHolding(true);
-  };
-  const handleTouchEnd = () => {
-    setIsHolding(false);
-  };
+  const [heartVisible, setHeartVisible] = useState(true);
+  const {
+    isHolding,
+    handleMouseDown,
+    handleMouseUp,
+    handleTouchStart,
+    handleTouchEnd,
+  } = useHold(setHeartVisible);
+  const width = useInnerWidth();
+
+  const holdingTimeRef = useRef(0);
+
+  holdingTimeRef.current = 0;
+
   return (
     <>
       <div
@@ -54,29 +36,58 @@ function App() {
       >
         <Header />
         <MainLayout>
-          <p className="text-white text-3xl sm:mt-32 mt-8">Hi, I'm Pposong</p>
-          {isHolding ? (
-            <motion.div
-              className="w-full flex h-60 place-content-center sm:-mt-20 mt-8 -z-10"
-              variants={motionVariants}
-              animate="shake"
-            >
-              <Stage width={width} height={width}>
-                <Heart isHolding={isHolding} width={width} />
-              </Stage>
-            </motion.div>
-          ) : (
-            <motion.div
-              className="w-full flex h-60 place-content-center sm:-mt-20 mt-8 -z-10"
-              variants={motionVariants}
-              animate="jump"
-            >
-              <Stage width={width} height={width}>
-                <Heart isHolding={isHolding} width={width} />
-              </Stage>
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {heartVisible && (
+              <motion.p
+                className="text-white text-3xl sm:mt-32 mt-8"
+                key="title-key"
+                initial={{ opacity: 0, scale: 2 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 2 }}
+                transition={{ duration: 0.2 }}
+              >
+                Hi, I'm Pposong
+              </motion.p>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {heartVisible && (
+              <motion.div
+                className="w-full flex h-60 place-content-center sm:-mt-20 mt-8 -z-10"
+                key="heart-key"
+                initial={{ opacity: 0, scale: 2 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.5 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isHolding ? (
+                  <motion.div variants={motionVariants} animate="shake">
+                    <Stage width={width} height={width}>
+                      <Heart
+                        isHolding={isHolding}
+                        width={width}
+                        setHeartVisible={setHeartVisible}
+                        holdingTimeRef={holdingTimeRef}
+                      />
+                    </Stage>
+                  </motion.div>
+                ) : (
+                  <motion.div variants={motionVariants} animate="jump">
+                    <Stage width={width} height={width}>
+                      <Heart
+                        isHolding={isHolding}
+                        width={width}
+                        setHeartVisible={setHeartVisible}
+                        holdingTimeRef={holdingTimeRef}
+                      />
+                    </Stage>
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </MainLayout>
+
         <Footer isHolding={isHolding} />
         <div className="fixed w-full h-full -z-20" />
       </div>

@@ -1,23 +1,32 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 
-const Line = () => (
-  <AnimatePresence>
-    <motion.div
-      key="progress-bar"
-      className={`h-[2px] bg-white`}
-      initial={{ width: 0 }}
-      animate={{ width: 300 }}
-      transition={{ duration: 2 }}
-    />
-  </AnimatePresence>
-);
-
-const LinePlaceholder1 = () => {
-  return <div className="h-[2px] w-[300px] mt-[-2px] bg-gray-800 -z-10"></div>;
+const LineVariants: Variants = {
+  line: {
+    width: [0, 300],
+    transition: {
+      duration: 2,
+    },
+  },
+  lineExit: {
+    width: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
 };
 
-const LinePlaceholder2 = () => {
-  return <div className="h-[2px] w-[300px] bg-gray-800 -z-10"></div>;
+const Line = () => {
+  return (
+    <>
+      <motion.div
+        key="progress-bar"
+        className={`h-[2px] bg-white mb-[-2px]`}
+        variants={LineVariants}
+        animate="line"
+        exit="lineExit"
+      />
+    </>
+  );
 };
 
 const Footer = ({ isHolding }: { isHolding: boolean }) => {
@@ -26,14 +35,11 @@ const Footer = ({ isHolding }: { isHolding: boolean }) => {
       <p className="text-white text-sm mb-3 select-none">
         {isHolding ? "Keep Holding" : "Click & Hold"}
       </p>
-      {isHolding ? (
-        <>
-          <Line />
-          <LinePlaceholder1 />
-        </>
-      ) : (
-        <LinePlaceholder2 />
-      )}
+      <AnimatePresence>{isHolding ? <Line /> : null}</AnimatePresence>
+      <div
+        key="progress-placeholder1"
+        className="h-[2px] w-[300px] bg-gray-800 -z-10"
+      />
     </div>
   );
 };

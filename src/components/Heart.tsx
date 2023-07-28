@@ -3,7 +3,17 @@ import { Container, Sprite, withFilters, useTick } from "@pixi/react";
 import love from "../assets/love.png";
 import { useState } from "react";
 
-const Heart = ({ isHolding, width }: { isHolding: boolean; width: number }) => {
+const Heart = ({
+  isHolding,
+  width,
+  setHeartVisible,
+  holdingTimeRef,
+}: {
+  isHolding: boolean;
+  width: number;
+  setHeartVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  holdingTimeRef: React.MutableRefObject<number>;
+}) => {
   const [bloom, setBloom] = useState(0.1);
   const [blur, setBlur] = useState(0.1);
   const [threshold, setThreshold] = useState(0.9);
@@ -13,27 +23,26 @@ const Heart = ({ isHolding, width }: { isHolding: boolean; width: number }) => {
 
   useTick(() => {
     if (isHolding) {
-      setBloom((bloom) => {
-        if (bloom < 2) return bloom + 0.03;
-        else return bloom;
-      });
-      setBlur((blur) => {
-        if (blur < 16) return blur + 0.1;
-        else return blur;
-      });
-      setThreshold((threshold) => {
-        if (threshold > 0.1) return threshold - 0.005;
-        else return threshold;
-      });
+      if (bloom < 2) setBloom((bloom) => bloom + 0.005);
+      if (blur < 10) setBlur((blur) => blur + 0.2);
+      if (threshold > 0.1) setThreshold((threshold) => threshold - 0.02);
+      holdingTimeRef.current += 1;
+      if (holdingTimeRef.current > 120) setHeartVisible(false);
     } else {
-      setBloom(0);
-      setBlur(0);
-      setThreshold(0.9);
+      holdingTimeRef.current = 0;
+      setHeartVisible(true);
+      if (bloom > 0) setBloom((bloom) => bloom - 0.03);
+      if (blur > 0) setBlur((blur) => blur - 0.1);
+      if (threshold < 0.9) setThreshold((threshold) => threshold + 0.05);
+
+      // setBloom(0);
+      // setBlur(0);
+      // setThreshold(0.9);
     }
   });
   return (
     <Filters
-      scale={3}
+      scale={2}
       width={width}
       height={width}
       bloom={{ bloomScale: bloom, blur: blur, threshold: threshold }}
