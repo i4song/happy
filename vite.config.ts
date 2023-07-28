@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     ViteFaviconsPlugin({
       logo: "public/favicon.png",
+      favicons: {
+        path: "assets/",
+      },
     }),
   ],
 });
