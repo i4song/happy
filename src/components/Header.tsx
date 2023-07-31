@@ -6,7 +6,6 @@ import instagram from "../assets/instagram.png";
 import linkedin from "../assets/linkedin.png";
 import mail from "../assets/mail.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 const ImageDiv = (
   props: React.HTMLAttributes<HTMLDivElement> & { url: string }
