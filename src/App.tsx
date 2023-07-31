@@ -90,7 +90,7 @@ function App() {
           <AnimatePresence mode="popLayout">
             {!heartVisible && (
               <motion.img
-                className="w-80 ml-auto mr-auto mt-40 -z-10"
+                className="w-80 ml-auto mr-auto mt-12 sm:mt-40 -z-10"
                 src={ProfileImg}
                 key="profile-key"
                 initial={{ opacity: 0, scale: 2 }}
