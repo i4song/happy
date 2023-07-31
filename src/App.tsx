@@ -9,6 +9,7 @@ import { Stage } from "@pixi/react";
 import useInnerWidth from "./components/useInnerWidth";
 import useHold from "./components/useHold";
 import { useRef, useState } from "react";
+import ProfileImg from "./assets/profile.png";
 
 function App() {
   const [heartVisible, setHeartVisible] = useState(true);
@@ -36,7 +37,7 @@ function App() {
       >
         <Header />
         <MainLayout>
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {heartVisible && (
               <motion.p
                 className="text-white text-3xl sm:mt-32 mt-8"
@@ -50,7 +51,7 @@ function App() {
               </motion.p>
             )}
           </AnimatePresence>
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {heartVisible && (
               <motion.div
                 className="w-full flex h-60 place-content-center sm:-mt-20 mt-8 -z-10"
@@ -84,6 +85,18 @@ function App() {
                   </motion.div>
                 )}
               </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="popLayout">
+            {!heartVisible && (
+              <motion.img
+                className="w-80 ml-auto mr-auto mt-40 -z-10"
+                src={ProfileImg}
+                key="profile-key"
+                initial={{ opacity: 0, scale: 2 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2 }}
+              />
             )}
           </AnimatePresence>
         </MainLayout>
